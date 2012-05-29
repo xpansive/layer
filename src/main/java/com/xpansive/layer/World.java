@@ -174,7 +174,7 @@ public class World {
 		}
 
 		public ChunkSection getGeneratedOnly(int x, int y, int z) {
-			if (y > Chunk.HEIGHT >> 4) {
+			if (y >= Chunk.HEIGHT >> 4 || y < 0) {
 				return null;
 			}
 

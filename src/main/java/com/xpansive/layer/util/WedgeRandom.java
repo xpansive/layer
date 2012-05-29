@@ -1,7 +1,5 @@
 package com.xpansive.layer.util;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.Random;
 
 /**
@@ -80,6 +78,3 @@ public class WedgeRandom {
         return min + jrandom.nextInt(Math.abs(max - min + 1));
     }
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com
