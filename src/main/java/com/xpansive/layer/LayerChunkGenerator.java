@@ -21,9 +21,8 @@ class LayerChunkGenerator extends ChunkGenerator {
 		if (!world.isChunkGeneratedInMemory(x, z)) {
 			world.generateChunkBase(x, z);
 		}
-		world.setBoundsCheck(true);
+
 		generator.getBiomeGenerator(x << 4, z << 4).generateStructures(world, x << 4, z << 4);
-		world.setBoundsCheck(false);
 
 		/*for (int cx = 0; cx < Chunk.WIDTH; cx++) {
 			for (int cz = 0; cz < Chunk.DEPTH; cz++) {
@@ -50,7 +49,7 @@ class LayerChunkGenerator extends ChunkGenerator {
 	@Override
 	public short[][] generateExtBlockSections(org.bukkit.World bukkitWorld, Random random, int x, int z, BiomeGrid biomes) {
 		if (world == null) {
-			world = new World(generator, bukkitWorld, false);
+			world = new World(generator, bukkitWorld);
 		}
 
 		if (!generator.usesExtendedBlockIds()) {

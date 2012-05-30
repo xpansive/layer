@@ -9,84 +9,87 @@ public class World {
 	public static final int HEIGHT = Chunk.HEIGHT;
 	private ChunkSectionPool sectionPool;
 	private org.bukkit.World bukkitWorld;
-	private boolean boundsCheck;
 	private WorldGenerator generator;
 
-	World(WorldGenerator generator, org.bukkit.World bukkitWorld, boolean boundsCheck) {
+	World(WorldGenerator generator, org.bukkit.World bukkitWorld) {
 		sectionPool = new ChunkSectionPool();
 		this.bukkitWorld = bukkitWorld;
-		this.boundsCheck = boundsCheck;
 		this.generator = generator;
 	}
 
 	public byte getBlockData(int x, int y, int z) {
+		if (isChunkGenerated(x >> 4, z >> 4)) {
+			return bukkitWorld.getBlockAt(x, y, z).getData();
+		} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
+			generateChunkBase(x >> 4, z >> 4);
+		}
+		return _getBlockData(x, y, z);
+	}
+
+	// The methods starting with an underscore are internal and will only work properly on chunks which are in the correct state.
+	byte _getBlockData(int x, int y, int z) {
 		if (outOfBounds(y)) {
 			return 0;
 		}
-		if (boundsCheck) {
-			if (isChunkGenerated(x >> 4, z >> 4)) {
-				return bukkitWorld.getBlockAt(x, y, z).getData();
-			} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
-				boundsCheck = false;
-				generateChunkBase(x >> 4, z >> 4);
-				boundsCheck = true;
-			}
-		}
+
 		ChunkSection chunkSection = sectionPool.get(x >> 4, y >> 4, z >> 4);
 		return chunkSection.getBlockData(x & 15, y & 15, z & 15);
 	}
 
 	public int getBlockTypeId(int x, int y, int z) {
+		if (isChunkGenerated(x >> 4, z >> 4)) {
+			return bukkitWorld.getBlockTypeIdAt(x, y, z);
+		} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
+			generateChunkBase(x >> 4, z >> 4);
+		}
+		return _getBlockTypeId(x, y, z);
+	}
+
+	int _getBlockTypeId(int x, int y, int z) {
 		if (outOfBounds(y)) {
 			return 0;
 		}
-		if (boundsCheck) {
-			if (isChunkGenerated(x >> 4, z >> 4)) {
-				return bukkitWorld.getBlockTypeIdAt(x, y, z);
-			} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
-				boundsCheck = false;
-				generateChunkBase(x >> 4, z >> 4);
-				boundsCheck = true;
-			}
-		}
+
 		ChunkSection chunkSection = sectionPool.get(x >> 4, y >> 4, z >> 4);
 		return chunkSection.getFullBlockId(x & 15, y & 15, z & 15);
 	}
 
 	public void setBlockData(int x, int y, int z, int data) {
+		if (isChunkGenerated(x >> 4, z >> 4)) {
+			bukkitWorld.getBlockAt(x, y, z).setData((byte)data);
+			return;
+		} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
+			generateChunkBase(x >> 4, z >> 4);
+		}
+		_setBlockData(x, y, z, data);
+	}
+
+	void _setBlockData(int x, int y, int z, int data) {
 		if (outOfBounds(y)) {
 			return;
 		}
-		if (boundsCheck) {
-			if (isChunkGenerated(x >> 4, z >> 4)) {
-				bukkitWorld.getBlockAt(x, y, z).setData((byte) data);
-				return;
-			} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
-				boundsCheck = false;
-				generateChunkBase(x >> 4, z >> 4);
-				boundsCheck = true;
-			}
-		}
+
 		ChunkSection chunkSection = sectionPool.get(x >> 4, y >> 4, z >> 4);
 		chunkSection.setBlockData(x & 15, y & 15, z & 15, (byte) data);
 	}
 
 	public void setBlockTypeId(int x, int y, int z, int typeId) {
+		if (isChunkGenerated(x >> 4, z >> 4)) {
+			bukkitWorld.getBlockAt(x, y, z).setTypeId(typeId);
+			return;
+		} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
+			generateChunkBase(x >> 4, z >> 4);
+		}
+		_setBlockTypeId(x, y, z, typeId);
+	}
+
+	void _setBlockTypeId(int x, int y, int z, int typeId) {
 		if (outOfBounds(y)) {
 			return;
 		}
-		if (boundsCheck) {
-			if (isChunkGenerated(x >> 4, z >> 4)) {
-				bukkitWorld.getBlockAt(x, y, z).setTypeId(typeId);
-				return;
-			} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
-				boundsCheck = false;
-				generateChunkBase(x >> 4, z >> 4);
-				boundsCheck = true;
-			}
-		}
+
 		ChunkSection chunkSection = sectionPool.get(x >> 4, y >> 4, z >> 4);
-		chunkSection.setFullBlockId(x & 15, y & 15, z & 15, (short) typeId);
+		chunkSection.setFullBlockId(x & 15, y & 15, z & 15, (short)typeId);
 	}
 
 	private boolean outOfBounds(int y) {
@@ -125,10 +128,6 @@ public class World {
 
 	ChunkSectionPool getChunkSectionPool() {
 		return sectionPool;
-	}
-
-	void setBoundsCheck(boolean boundsCheck) {
-		this.boundsCheck = boundsCheck;
 	}
 
 	class ChunkSectionPool {

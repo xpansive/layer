@@ -32,7 +32,7 @@ public class Chunk {
 			return 0;
 		}
 
-		return world.getBlockData(wx + x, y, wz + z);
+		return world._getBlockData(wx + x, y, wz + z);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class Chunk {
 			return 0;
 		}
 
-		return world.getBlockTypeId(wx + x, y, wz + z);
+		return world._getBlockTypeId(wx + x, y, wz + z);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class Chunk {
 			return;
 		}
 
-		world.setBlockData(wx + x, y, wz + z, data);
+		world._setBlockData(wx + x, y, wz + z, data);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class Chunk {
 			return;
 		}
 
-		world.setBlockTypeId(wx + x, y, wz + z, typeId);
+		world._setBlockTypeId(wx + x, y, wz + z, typeId);
 	}
 
 	private static boolean outOfBounds(int x, int z) {

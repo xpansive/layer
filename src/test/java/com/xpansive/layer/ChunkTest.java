@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class ChunkTest {
 	private Chunk chunk;
-	private World world = new World(null, null, false);
+	private World world = new World(null, null);
 	private int chunkCount;
 
 	@Before

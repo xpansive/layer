@@ -10,7 +10,7 @@ public class ChunkSectionPoolTest {
 
 	@Before
 	public void setup() {
-		factory = new World(null, null, false).getChunkSectionPool();
+		factory = new World(null, null).getChunkSectionPool();
 	}
 
 	@Test

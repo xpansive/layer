@@ -21,7 +21,7 @@ public class BlockColumn {
 	 * @return The data value. 0 <= data <= 15.
 	 */
 	public byte getBlockData(int y) {
-		return world.getBlockData(x, y, z);
+		return world._getBlockData(x, y, z);
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class BlockColumn {
 	 * @return The type id. 0 <= id <= 15.
 	 */
 	public int getBlockTypeId(int y) {
-		return world.getBlockTypeId(x, y, z);
+		return world._getBlockTypeId(x, y, z);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class BlockColumn {
 	 * @param data The data value to set. 0 &lt;= data <= 15.
 	 */
 	public void setBlockData(int y, int data) {
-		world.setBlockData(x, y, z, data);
+		world._setBlockData(x, y, z, data);
 	}
 
 	/**
@@ -65,6 +65,6 @@ public class BlockColumn {
 	 * @param typeId The type id value to set. 0 <= typeId <= 15.
 	 */
 	public void setBlockTypeId(int y, int typeId) {
-		world.setBlockTypeId(x, y, z, typeId);
+		world._setBlockTypeId(x, y, z, typeId);
 	}
 }
