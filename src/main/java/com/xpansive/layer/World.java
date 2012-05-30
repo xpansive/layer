@@ -56,7 +56,7 @@ public class World {
 
 	public void setBlockData(int x, int y, int z, int data) {
 		if (isChunkGenerated(x >> 4, z >> 4)) {
-			bukkitWorld.getBlockAt(x, y, z).setData((byte)data);
+			bukkitWorld.getBlockAt(x, y, z).setData((byte) data);
 			return;
 		} else if (!isChunkGeneratedInMemory(x >> 4, z >> 4)) {
 			generateChunkBase(x >> 4, z >> 4);
@@ -89,7 +89,7 @@ public class World {
 		}
 
 		ChunkSection chunkSection = sectionPool.get(x >> 4, y >> 4, z >> 4);
-		chunkSection.setFullBlockId(x & 15, y & 15, z & 15, (short)typeId);
+		chunkSection.setFullBlockId(x & 15, y & 15, z & 15, (short) typeId);
 	}
 
 	private boolean outOfBounds(int y) {
