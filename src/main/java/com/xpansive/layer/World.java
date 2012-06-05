@@ -1,8 +1,10 @@
 package com.xpansive.layer;
 
+import com.xpansive.layer.util.LayerRandom;
 import com.xpansive.layer.util.Pool;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class World {
 
@@ -10,15 +12,21 @@ public class World {
 	private ChunkSectionPool sectionPool;
 	private org.bukkit.World bukkitWorld;
 	private WorldGenerator generator;
+	private LayerRandom random;
 
 	World(WorldGenerator generator, org.bukkit.World bukkitWorld) {
 		sectionPool = new ChunkSectionPool();
 		this.bukkitWorld = bukkitWorld;
 		this.generator = generator;
+		random = new LayerRandom(new Random(bukkitWorld.getSeed()));
 	}
 
 	public long getSeed() {
 		return bukkitWorld.getSeed();
+	}
+
+	public LayerRandom getRandom() {
+		return random;
 	}
 
 	public byte getBlockData(int x, int y, int z) {

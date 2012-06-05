@@ -25,10 +25,8 @@ public abstract class BiomeGenerator {
 	}
 
 	void generateBaseTerrain(BlockColumn column) {
-		seed = column.getWorld().getSeed();
-
 		for (Pass pass : passes) {
-			pass.run(column, new LayerRandom(new Random(seed * (column.getX() * 12345) * (column.getZ() * 67890))));
+			pass.run(column, column.getWorld().getRandom());
 		}
 	}
 
