@@ -18,7 +18,9 @@ public class World {
 		sectionPool = new ChunkSectionPool();
 		this.bukkitWorld = bukkitWorld;
 		this.generator = generator;
-		random = new LayerRandom(new Random(bukkitWorld.getSeed()));
+		if (bukkitWorld != null) { //TODO: temp fix for tests
+			random = new LayerRandom(new Random(bukkitWorld.getSeed()));
+		}
 	}
 
 	public long getSeed() {
