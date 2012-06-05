@@ -101,4 +101,8 @@ public class Chunk {
 		// The world handles y coords
 		return x >= WIDTH || x < 0 || z >= DEPTH || z < 0;
 	}
+
+	public World getWorld() {
+		return world;
+	}
 }

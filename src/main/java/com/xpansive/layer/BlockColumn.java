@@ -67,4 +67,8 @@ public class BlockColumn {
 	public void setBlockTypeId(int y, int typeId) {
 		world._setBlockTypeId(x, y, z, typeId);
 	}
+
+	public World getWorld() {
+		return world;
+	}
 }

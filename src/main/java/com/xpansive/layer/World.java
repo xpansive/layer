@@ -17,6 +17,10 @@ public class World {
 		this.generator = generator;
 	}
 
+	public long getSeed() {
+		return bukkitWorld.getSeed();
+	}
+
 	public byte getBlockData(int x, int y, int z) {
 		if (isChunkGenerated(x >> 4, z >> 4)) {
 			return bukkitWorld.getBlockAt(x, y, z).getData();
